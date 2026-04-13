@@ -16,11 +16,16 @@ app.use(express.static(path.join(__dirname)));
 // Proxy route
 app.post('/api/chat', async (req, res) => {
   try {
+    let currentKey = API_KEY;
+    if (req.body.model === 'google/gemma-4-31b-it') {
+      currentKey = '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';
+    }
+
     const upstream = await fetch('https://integrate.api.nvidia.com/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${API_KEY}`,
+        'Authorization': `Bearer ${currentKey}`,
         'Accept': 'text/event-stream'
       },
       body: JSON.stringify(req.body)

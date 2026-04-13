@@ -9,9 +9,12 @@ export default async function handler(req) {
 
   try {
     const body = await req.json();
-    
     // In Vercel, API keys should be added in the project's Environment Variables settings
-    const API_KEY = process.env.NVIDIA_API_KEY || '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';
+    let API_KEY = process.env.NVIDIA_API_KEY || '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';
+    
+    if (body.model === 'google/gemma-4-31b-it') {
+      API_KEY = process.env.GEMMA_API_KEY || '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';
+    }
 
     const response = await fetch('https://integrate.api.nvidia.com/v1/chat/completions', {
       method: 'POST',
