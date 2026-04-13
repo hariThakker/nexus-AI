@@ -586,11 +586,12 @@
         let thinkTxt = '', replyTxt = '', thinkDone = false;
 
         try {
-          const payload = {
+        const cleanHistory = history.slice(0, -1).map(msg => ({ role: msg.role, content: msg.content }));
+        const payload = {
             model: MODEL,
-            messages: [{ role: 'system', content: SYSTEM }, ...history],
+            messages: [{ role: 'system', content: SYSTEM }, ...cleanHistory],
             temperature: 1, top_p: 0.9, stream: true
-          };
+        };
 
           // Add specific kwargs for Kimi if needed, Gemma instructions
           if (MODEL === 'google/gemma-4-31b-it' && thinkOn) {
