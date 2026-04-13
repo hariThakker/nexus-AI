@@ -1122,7 +1122,8 @@
       if (!overrideText) { inp.value = ''; inp.style.height = 'auto'; }
 
       if (!isSystem) addUserMsg(text);
-      if(!skipHistory) { history.push({ role: 'user', content: text }); saveChatToStorage(); }
+      history.push({ role: 'user', content: text }); 
+      saveChatToStorage();
 
       const { tbox, bbl, meta } = makeAiShell();
       let thinkTxt = '', replyTxt = '', thinkDone = false;
