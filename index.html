@@ -159,13 +159,24 @@
     }
     .model-select option { background: #0b0c10; color: #fff; }
 
-    .hero { margin: 40px 0 20px; animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both; }
+    
     .eyebrow { font-size: 11px; letter-spacing: .15em; text-transform: uppercase; color: var(--accent2); margin-bottom: 14px;}
     .htitle { font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(32px, 5vw, 48px); line-height: 1.1; letter-spacing: -1px; }
     .htitle span { background: linear-gradient(90deg, var(--accent2), var(--accent3)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
     .hsub { color: var(--text-muted); font-size: 14px; max-width: 500px; margin-top: 12px; line-height: 1.6; }
 
-    .chat-wrap { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+    
+    .chat-wrap { flex: 1; min-height: 0; display: flex; flex-direction: column; position: relative; width: 100%; max-width: 1000px; margin: 0 auto;}
+    .chat-wrap.is-empty { justify-content: center; align-items: center; }
+    
+    .hero { display: none; text-align: center; margin-bottom: 40px; animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both; }
+    .chat-wrap.is-empty .hero { display: flex; flex-direction: column; align-items: center; }
+    
+    .chat-wrap.is-empty .messages { display: none; }
+    .chat-wrap.is-empty .input-area { width: 100%; max-width: 760px; padding: 0; }
+    
+    .input-area { width: 100%; padding: 20px 0 40px; transition: all 0.4s ease; margin: 0 auto; max-width: 1000px; }
+
     .messages { flex: 1; min-height: 0; overflow-y: auto; padding: 20px 0; display: flex; flex-direction: column; gap: 24px; scrollbar-width: none; }
     .messages::-webkit-scrollbar { display: none; }
     
@@ -317,16 +328,13 @@
         </div>
       </header>
 
-      <div class="hero">
-        <div class="eyebrow">Streaming · moonshotai/kimi-k2-thinking · NVIDIA NIM</div>
-        <h1 class="htitle">Your private AI,<br><span class="g">always thinking.</span></h1>
-        <p class="hsub">Ask anything. With Thinking mode, you can watch the reasoning behind every answer as it streams
-          in.</p>
+      <div class="chat-wrap" id="chatWrap">
+      <div class="hero" id="heroEl">
+        <div class="eyebrow" id="eyebrowText">Streaming · moonshotai/kimi-k2-thinking · NVIDIA NIM</div>
+        <h1 class="htitle">Evening, Hari Thakker</h1>
+        <p class="hsub">Ask anything. With Thinking mode, you can watch the reasoning behind every answer as it streams in.</p>
       </div>
 
-
-
-      <div class="chat-wrap">
         <div class="messages" id="msgs">
           <div class="empty" id="emptyEl">
             <div class="empty-ico">✦</div>
@@ -356,7 +364,7 @@
 
       function changeModel() {
         MODEL = document.getElementById('modelSelect').value;
-        const subtitle = document.querySelector('.eyebrow');
+        const subtitle = document.getElementById('eyebrowText');
         subtitle.innerHTML = `Streaming · ${MODEL} · NVIDIA NIM`;
       }
 
