@@ -107,10 +107,12 @@
       padding: 12px 14px; border-radius: 12px;
       background: transparent; color: var(--text-muted); font-size: 13px;
       cursor: pointer; border: 1px solid transparent;
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-      transition: all 0.2s;
+      transition: all 0.2s; display: flex; align-items: center; justify-content: space-between; gap: 8px;
     }
     .chat-item:hover { color: var(--text); background: var(--surface); }
+    .chat-item .del-btn { opacity: 0; transition: 0.2s; padding: 2px 6px; border-radius: 4px; font-size: 11px; }
+    .chat-item:hover .del-btn { opacity: 0.6; }
+    .chat-item .del-btn:hover { opacity: 1; background: rgba(255,0,0,0.2); color: #ff5555; }
     .chat-item.active {
       color: #fff; background: rgba(14,220,245,0.1);
       border-color: rgba(14,220,245,0.3);
@@ -352,9 +354,6 @@
               </svg>
             </button>
           </div>
-          <div class="fhint">Press <span>Enter</span> to send &nbsp;·&nbsp; <span>Shift+Enter</span> new line
-            &nbsp;·&nbsp; toggle 🧠 thinking above</div>
-        </div>
       </div>
     </div>
 
@@ -431,8 +430,23 @@
         const saved = JSON.parse(localStorage.getItem('nexus_chats') || '[]');
         const list = document.getElementById('chatList');
         list.innerHTML = saved.map(c =>
-          `<div class="chat-item ${c.id === currentChatId ? 'active' : ''}" onclick="loadChat('${c.id}')">${c.title}</div>`
+          `<div class="chat-item ${c.id === currentChatId ? 'active' : ''}" onclick="loadChat('${c.id}')">
+             <span style="flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${c.title}</span>
+             <span class="del-btn" onclick="deleteChat(event, '${c.id}')">✕</span>
+           </div>`
         ).join('');
+      }
+
+      function deleteChat(event, id) {
+        event.stopPropagation();
+        let saved = JSON.parse(localStorage.getItem('nexus_chats') || '[]');
+        saved = saved.filter(c => c.id !== id);
+        localStorage.setItem('nexus_chats', JSON.stringify(saved));
+        if (id === currentChatId) {
+          initChats();
+        } else {
+          renderChatList();
+        }
       }
 
       function renderMessages() {
