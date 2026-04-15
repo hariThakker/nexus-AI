@@ -14,6 +14,10 @@ export default async function handler(req) {
 
     if (body.model === 'google/gemma-2-2b-it') {
       API_KEY = process.env.GEMMA2_API_KEY || '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';
+      // Strip system messages defensively on the backend
+      if (body.messages) {
+        body.messages = body.messages.filter(m => m.role !== 'system');
+      }
     } else if (body.model === 'google/gemma-4-31b-it') {
       body.model = 'google/gemma-3-27b-it'; // Map to working model since 31b-it hangs
     }

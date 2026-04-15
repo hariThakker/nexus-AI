@@ -19,6 +19,10 @@ app.post('/api/chat', async (req, res) => {
     let currentKey = API_KEY;
     if (req.body.model === 'google/gemma-2-2b-it') {
       currentKey = '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';
+      // Strip system messages defensively on the backend to avoid 500 errors if cached frontends send them
+      if (req.body.messages) {
+        req.body.messages = req.body.messages.filter(m => m.role !== 'system');
+      }
     } else if (req.body.model === 'google/gemma-4-31b-it') {
       req.body.model = 'google/gemma-3-27b-it'; // Map to working model since 31b-it hangs on backend
     }
