@@ -17,7 +17,9 @@ app.use(express.static(path.join(__dirname)));
 app.post('/api/chat', async (req, res) => {
   try {
     let currentKey = API_KEY;
-    if (req.body.model === 'google/gemma-4-31b-it') {
+    if (req.body.model === 'google/gemma-2-2b-it') {
+      currentKey = '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';
+    } else if (req.body.model === 'google/gemma-4-31b-it') {
       req.body.model = 'google/gemma-3-27b-it'; // Map to working model since 31b-it hangs on backend
     }
 

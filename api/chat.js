@@ -12,7 +12,9 @@ export default async function handler(req) {
     // In Vercel, API keys should be added in the project's Environment Variables settings
     let API_KEY = process.env.NVIDIA_API_KEY || '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';
 
-    if (body.model === 'google/gemma-4-31b-it') {
+    if (body.model === 'google/gemma-2-2b-it') {
+      API_KEY = process.env.GEMMA2_API_KEY || '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';
+    } else if (body.model === 'google/gemma-4-31b-it') {
       body.model = 'google/gemma-3-27b-it'; // Map to working model since 31b-it hangs
     }
 
