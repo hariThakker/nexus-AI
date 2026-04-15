@@ -18,7 +18,7 @@ app.post('/api/chat', async (req, res) => {
   try {
     let currentKey = API_KEY;
     if (req.body.model === 'google/gemma-4-31b-it') {
-      currentKey = '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';
+      req.body.model = 'google/gemma-3-27b-it'; // Map to working model since 31b-it hangs on backend
     }
 
     const upstream = await fetch('https://integrate.api.nvidia.com/v1/chat/completions', {
