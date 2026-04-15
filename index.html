@@ -1097,6 +1097,7 @@
               payload.temperature = 0.2;
               payload.top_p = 0.7;
               payload.max_tokens = 1024;
+              payload.messages = payload.messages.filter(m => m.role !== 'system');
             } else if (MODEL === 'google/gemma-4-31b-it' && thinkOn) {
               payload.chat_template_kwargs = { "enable_thinking": true };
               payload.max_tokens = 16384;
