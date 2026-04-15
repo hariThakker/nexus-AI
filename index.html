@@ -596,7 +596,7 @@
         let thinkTxt = '', replyTxt = '', thinkDone = false;
 
         try {
-        const cleanHistory = history.slice(0, -1).map(msg => ({ role: msg.role, content: msg.content }));
+        const cleanHistory = history.map(msg => ({ role: msg.role, content: msg.content }));
         const payload = {
             model: MODEL,
             messages: [{ role: 'system', content: SYSTEM }, ...cleanHistory],
